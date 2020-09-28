@@ -3,8 +3,8 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const User = mongoose.model("User")
 const bcrypt = require('bcryptjs')
-
-
+const jwt = require('jsonwebtoken')
+const {JWT_SECRET} = require('../keys')
 
 
 router.post('/signup',(req,res)=>{
@@ -63,7 +63,10 @@ router.post('/signin',(req,res)=>{
         .then(doMatch=>{
             if(doMatch)
             {
-                return res.status(200).json({message:"successfully signed in"})
+                const token = jwt.sign({_id:savedUser._id},JWT_SECRET)
+
+                res.json({token})
+                
             }
             else{
                 return res.status(422).json({error:"Invalid email or Password"})
