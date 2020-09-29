@@ -6,12 +6,13 @@ const PORT = 5000
 const {MONGOURI} = require('./keys')
 
 require('./models/user')
+require('./models/post')
 
 app.use(express.json()) //it should be above the routes handlers
 
 app.use(require('./routes/auth'))// it should be below the route handlers
 
-
+app.use(require('./routes/post'))
 
 
 mongoose.connect(MONGOURI,{
